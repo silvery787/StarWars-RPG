@@ -24,11 +24,10 @@ Character.prototype = {
 	},
 
 	draw : function(id, ava_class, divId){
-		//console.log(this.name + " : " + this.health);
+		
 		var character = $("<div>");
 		character.attr("data", id);
 		character.attr("class","char_container "+ava_class);
-		//create char picture and append to divId
 
 		var char_name = $("<div>");
 		char_name.attr("class", "character_name");
@@ -68,10 +67,10 @@ var game = {
 	start : function(){
 		
 		this.charList = [ 	
-							new Character("Yoda", "yoda.png", 150, 20, 20),
-							new Character("Darth Maul", "maul.png", 120, 15, 15),
-							new Character("Luke Skywolker", "luke.png", 100, 10, 10),
-							new Character("Darth Vader", "vader.png", 180, 25, 25) 
+							new Character("Yoda", "yoda.png", 130, 15, 20),
+							new Character("Darth Maul", "maul.png", 145, 10, 25),
+							new Character("Luke Skywolker", "luke.png", 100, 18, 30),
+							new Character("Darth Vader", "vader.png", 170, 8, 15) 
 						];
 
 		this.defenderList = [];
@@ -117,12 +116,13 @@ var game = {
 
 			var def_name = this.charDef.name;
 			var def_attack = this.charDef.counter_attack;
-			
+			var main_attack = this.charMain.current_attack;
+
 			this.charMain.actAttack(this.charDef);
 			if( this.charDef.isAlive() ){
 				this.charDef.actCounterAttack(this.charMain);
 				if( !this.charMain.isAlive() ){
-					this.gameStatus = 0;//loose
+					this.gameStatus = 0;//lost
 				}
 			}
 			else{ // defender died
@@ -130,12 +130,12 @@ var game = {
 				this.gameStatus = 1;//won
 				this.state = 2;
 			}
-			this.battleLog(def_name, def_attack);
+			this.battleLog(def_name, def_attack, main_attack);
 		}
 		this.draw();
 	},
 
-	battleLog: function(def_name, def_attack){
+	battleLog: function(def_name, def_attack, attack){
 
 		this.battleText1 = "";
 		this.battleText2 = "";
@@ -154,8 +154,7 @@ var game = {
 		}
 		else if ( this.gameStatus == -1 ){
 			if(this.state == 3){
-				var main_attack = this.charMain.current_attack - this.charMain.attack_boost;
-				this.battleText1 = "You attacked " + def_name + " for " + main_attack + " damage.";
+				this.battleText1 = "You attacked " + def_name + " for " + attack + " damage.";
 				this.battleText2 = def_name + " attacked you back for " + def_attack + " damage.";
 			}
 		}
@@ -224,8 +223,6 @@ var game = {
 			}
 
 		}
-		// else if( this.state == 4 ){
-
 
 	}
 };
@@ -237,12 +234,10 @@ $(document).ready(function() {
 
 	$("#divCharList").on("click", "div", function(){
 		var index = $(this).attr("data");
-
-			console.log("state = "+game.state);
-
-		if(game.state == 1 ) 
+		if( game.state == 1 ){ 
 			game.chooseMain(index);
-		else if(game.state == 2 ){
+		}
+		else if( game.state == 2 ){
 			if( game.defenderList.length > 0){
 				game.chooseDefender(index);
 			}
