@@ -3,7 +3,6 @@ body {
 	background-size: 100% auto;
 	background-repeat: no-repeat;
 	background-color: #000;
-	/*border: 5px solid #000;*/
 	color: #fff;
 	font-size: 25px;
 	font-family: 'Ubuntu', sans-serif;
@@ -11,26 +10,13 @@ body {
 img {
 	width: 220px;
 	height: 300px;
-/*	margin-top: 5px;
-	margin-left: 10px;
-*/}
-/*#divTitle img{
-	max-width: 100%;
-	text-align: center;
 }
-#divCharList img {
-	max-width: 100%;
-}
-#divArena img {
-	width: 100%;
-}
-*/
 
 #divArena {
 	background: url('../images/screen1.png') 100% 100%;
-	height: 600px;
 	margin-top: 150px;
 	padding: 20px;
+	background-size: 100% 100%;
 }
 
 .avatar {
@@ -54,8 +40,9 @@ div.enemy .avatar {
 }
 
 #divTitle {
-	padding-bottom: 50px;
+	padding-bottom: 20px;
 	padding-top: 50px;
+	min-width: 100%;
 }
 
 #divCharList div.char_container{
@@ -82,12 +69,10 @@ div.enemy .avatar {
 div.friend .character_name {
     background: #1a73c5;
     width: 100%;
-    /*border: 1px solid white;*/
 }
 div.enemy .character_name {
     background: #931c1f;
     width: 100%;
-    /*border: 1px solid white;*/
 }
 
 .character_hp {
@@ -115,7 +100,7 @@ div.enemy .character_hp {
 
 }
 #btn_attack {
-	padding-top: 20%;
+	padding-top: 50%;
 }
 
 #div_restart {
@@ -137,4 +122,21 @@ div.enemy .character_hp {
 	text-align: center;
 	padding: 5px;
 	line-height: 1;
+	width: 100%;
+}
+#divBattleLog .lost{
+	font-size: 25px;
+	color : #931c1f;
+}
+#divBattleLog .won{
+	font-size: 25px;
+	color : green;
+}
+#divInstructions {
+	color: #1a73c5;
+	font-size: 24px;
+	text-align: center;
+	padding: 5px;
+	line-height: 1.5;
+	width: 100%;
 }

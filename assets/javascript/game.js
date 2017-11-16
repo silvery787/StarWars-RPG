@@ -58,12 +58,12 @@ var game = {
 	charMain : null,
 	charDef : null,
 	
-	gameStatus : -1, // 0/1 (loose, win)
+	gameStatus : -1, // 0: lost battle; 1: won battle
 
 	battleText1 : "",
 	battleText2 : "",
 
-	state : 1,  //1: initial state, choose main; 2: choose enemy, 3: battle, 
+	state : 1,  //1: initial state, choose main; 2: choose enemy, 3: battle.
 
 	start : function(){
 		
@@ -161,7 +161,8 @@ var game = {
 		}
 	},
 
-	draw : function(){	
+	draw : function(){
+
 		console.log("DRAW, state = "+this.state);
 
 		$("#divMainChar").empty();
@@ -170,12 +171,15 @@ var game = {
 		$("#btn_attack").hide();
 		$("#btn_restart").hide();
 		$("#divBattleLog").empty();
+		$("#divInstructions").empty();
 
 		if( this.state == 1 ){
 			$("#divCharList").empty();
 			$.each(this.charList, function( index, character ){
 				character.draw(index, "friend", "divCharList");
 			});
+			
+			$("#divInstructions").text("Choose Your Hero");
 		}
 		else if( this.state > 1 && this.state < 4 ){
 
@@ -186,24 +190,31 @@ var game = {
 			});
 			$("#btn_restart").show();
 
+			if( this.state == 2 ){
+				$("#divInstructions").text("Choose Defender");
+			}
+
 			//draw main
 			$("#divMainChar").empty();
 			this.charMain.draw(-1, "friend", "divMainChar");
 
 			if( this.gameStatus == 0 ){
 				$("#divBattleLog").append( $("<p>").text(this.battleText1) );
-				$("#divBattleLog").attr("class", "lost");
+				$("#divBattleLog p").attr("class", "lost");
 				$("#btn_attack").hide();
 			}
 			if( this.gameStatus == 1 ){
 				$("#divBattleLog").append( $("<p>").text(this.battleText1) );
 				$("#divBattleLog").append( $("<p>").text(this.battleText2) );
+				$("#divBattleLog p").attr("class", "won");
 				$("#btn_attack").hide();
 			}
 
 			if( this.state == 3 ){
 				$("#divDefChar").empty();
 				this.charDef.draw(-1, "enemy", "divDefChar");
+
+				$("#divInstructions").text("Click The Swords To Attack");
 
 				if(this.gameStatus == -1){//still fighting
 					$("#btn_attack").show();
