@@ -101,6 +101,7 @@ div.enemy .character_hp {
 }
 #btn_attack {
 	padding-top: 50%;
+	border: 0;
 }
 
 #div_restart {

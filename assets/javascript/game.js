@@ -123,6 +123,7 @@ var game = {
 				this.charDef.actCounterAttack(this.charMain);
 				if( !this.charMain.isAlive() ){
 					this.gameStatus = 0;//lost
+					this.state = 2;
 				}
 			}
 			else{ // defender died
@@ -166,14 +167,16 @@ var game = {
 
 		$("#divMainChar").empty();
 		$("#divDefChar").empty();
+		$("#divCharList").empty();
 
 		$("#btn_attack").hide();
 		$("#btn_restart").hide();
+
 		$("#divBattleLog").empty();
 		$("#divInstructions").empty();
 
 		if( this.state == 1 ){
-			$("#divCharList").empty();
+			//draw available characters
 			$.each(this.charList, function( index, character ){
 				character.draw(index, "friend", "divCharList");
 			});
@@ -183,25 +186,29 @@ var game = {
 		else if( this.state > 1 && this.state < 4 ){
 
 			//draw defenderList
-			$("#divCharList").empty();
 			$.each(this.defenderList, function( index, character ){
 				character.draw(index, "enemy", "divCharList");
 			});
 			$("#btn_restart").show();
 
-			if( this.state == 2 ){
+			if( this.state == 2 && this.defenderList.length > 0){
 				$("#divInstructions").text("Choose Defender");
 			}
 
 			//draw main
-			$("#divMainChar").empty();
 			this.charMain.draw(-1, "friend", "divMainChar");
 
+			// 'lost' situation
 			if( this.gameStatus == 0 ){
+				//draw current defender
+				this.charDef.draw(-1, "enemy", "divDefChar");
+
 				$("#divBattleLog").append( $("<p>").text(this.battleText1) );
 				$("#divBattleLog p").attr("class", "lost");
+				$("#divInstructions").empty();
 				$("#btn_attack").hide();
 			}
+			// 'won' situation
 			if( this.gameStatus == 1 ){
 				$("#divBattleLog").append( $("<p>").text(this.battleText1) );
 				$("#divBattleLog").append( $("<p>").text(this.battleText2) );
@@ -210,12 +217,13 @@ var game = {
 			}
 
 			if( this.state == 3 ){
-				$("#divDefChar").empty();
+				// draw current defender
 				this.charDef.draw(-1, "enemy", "divDefChar");
 
 				$("#divInstructions").text("Click The Swords To Attack");
 
-				if(this.gameStatus == -1){//still fighting
+				//still fighting
+				if(this.gameStatus == -1){
 					$("#btn_attack").show();
 					$("#divBattleLog").append( $("<p>").text(this.battleText1) );
 					$("#divBattleLog").append( $("<p>").text(this.battleText2) );
