@@ -24,7 +24,6 @@ Character.prototype = {
 	},
 
 	draw : function(id, ava_class, divId){
-		
 		var character = $("<div>");
 		character.attr("data", id);
 		character.attr("class","char_container "+ava_class);
@@ -163,7 +162,7 @@ var game = {
 
 	draw : function(){
 
-		console.log("DRAW, state = "+this.state);
+		// console.log("DRAW, state = "+this.state);
 
 		$("#divMainChar").empty();
 		$("#divDefChar").empty();
@@ -240,7 +239,7 @@ $(document).ready(function() {
 
 	game.start();
 
-	$("#divCharList").on("click", "div", function(){
+	$("#divCharList").on("click", "div.char_container", function(){
 		var index = $(this).attr("data");
 		if( game.state == 1 ){ 
 			game.chooseMain(index);
